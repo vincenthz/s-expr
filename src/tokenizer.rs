@@ -466,12 +466,13 @@ fn is_id_continue(ch: char) -> bool {
     {
         ch.is_xid_continue()
             || ch == '_'
+            || ch.is_ascii_digit()
             || is_ascii_operator(ch)
             || crate::utf8::extended_math_operator(ch)
     }
     #[cfg(not(feature = "unicode"))]
     {
-        ch.is_ascii_alphabetic() || ch == '_' || is_ascii_operator(ch)
+        ch.is_ascii_alphabetic() || ch == '_' || ch.is_ascii_digit() || is_ascii_operator(ch)
     }
 }
 
