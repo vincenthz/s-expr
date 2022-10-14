@@ -20,7 +20,7 @@ mod printer;
 mod tokenizer;
 mod utf8;
 
-pub use data::{ABytes, ADecimal, ANum, GroupKind};
+pub use data::{ABytes, ADecimal, ANum, Atom, GroupKind};
 pub use loc::{Position, Span};
 pub use parser::{Element, Parser, ParserError, SpannedElement};
 pub use printer::Printer;
