@@ -90,13 +90,6 @@ impl<'a> Token<'a> {
 
 /// A Token with the span (start and end positions) associated
 pub type SpannedToken<'a> = Spanned<Token<'a>>;
-/*
-#[derive(Clone, Debug)]
-pub struct SpannedToken<'a> {
-    pub span: Span,
-    pub token: Token<'a>,
-}
-*/
 
 #[derive(Clone, Debug)]
 pub enum TokenError {
