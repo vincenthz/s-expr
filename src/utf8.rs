@@ -79,27 +79,29 @@ pub(crate) fn next_char(
         return Err(NextCharError::IncompleteUtf8Sequence(h));
     }
 
-    fn mask_cont(v: u8) -> u32 {
+    const fn mask_cont(v: u8) -> u32 {
         (v & 0b0011_1111) as u32
     }
 
-    fn mask_head(mask: u8, v: u8) -> u32 {
+    const fn mask_head(mask: u8, v: u8) -> u32 {
         (v & mask) as u32
     }
 
-    fn is_cont(v: u8) -> bool {
+    const fn is_cont(v: u8) -> bool {
         const CONT_MASK: u8 = 0b1100_0000;
         const CONT_ESEQ: u8 = 0b1000_0000;
         (v & CONT_MASK) == CONT_ESEQ
     }
 
-    fn u32_to_char(
+    const fn u32_to_char(
         c: u32,
         nb_chars: usize,
     ) -> Result<Option<(char, MovementInBytes)>, NextCharError> {
-        char::from_u32(c)
-            .ok_or(NextCharError::InvalidUtf8Sequence)
-            .map(|c| Some((c, MovementInBytes(nb_chars))))
+        // const-hack since map is not const
+        match char::from_u32(c) {
+            None => Err(NextCharError::InvalidUtf8Sequence),
+            Some(c) => Ok(Some((c, MovementInBytes(nb_chars)))),
+        }
     }
 
     const MASK2: u8 = 0b0001_1111;
